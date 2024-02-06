@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @WebMvcTest(controllers = PricesController.class)
 @ExtendWith(MockitoExtension.class)
-class TestsPedidosEnLaPrueba {
+class ApplicationTests {
 
     @Autowired
     MockMvc mockMvc;
@@ -63,6 +63,7 @@ class TestsPedidosEnLaPrueba {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].priority", CoreMatchers.is(prices.get(0).getPriority())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].startDate", CoreMatchers.is(prices.get(0).getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].price", CoreMatchers.is(prices.get(0).getPrice())));
+        response = null;
     }
 
     //Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)
