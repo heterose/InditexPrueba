@@ -123,7 +123,7 @@ Each layer in this application carries its own responsibilities, each of them ar
 ## Code Explanation
 <hr/>The following figure shows the package structure and the classes it contains.<br/><br/>
 
-<img height="400px"  width="500px" src="C:\hector\proyecto\commerce\src\main\resources\images\package-structure.png"/>
+<img height="400px"  width="500px" src="https://github.com/heterose/InditexPrueba/blob/prueba/src/main/resources/images/package-structure.png"/>
 <br/><br/>The following table offers a short description of each of the application classes
 <div style="width:670px; height=500px"> <pre>
 controller
@@ -159,7 +159,7 @@ validator
 The tests are located in the tests package within the src package.<br/>
 The following figure shows the tests carried out in this application.
 
-<img height="300px"  width="400px" src="C:\hector\proyecto\commerce\src\main\resources\images\tests.png"/>
+<img height="300px"  width="400px" src="https://github.com/heterose/InditexPrueba/blob/prueba/src/main/resources/images/tests.png"/>
 <br/>
 The application was run locally using the Tomcat container embedded with spring boot.
 
@@ -168,7 +168,7 @@ The container (tomcat) runs at runtime and deploys automatically this rest API s
 To emulate a client that uses the controller endpoint, Postman is used as the API client.
 The following image shows the call to the endpoint performed by Postamn API client
 <br/><br/>
-<img height="400px"  width="600px" src="C:\hector\proyecto\commerce\src\main\resources\images\postman.png"/>
+<img height="400px"  width="600px" src="https://github.com/heterose/InditexPrueba/blob/prueba/src/main/resources/images/postman.png"/>
 
 
 
