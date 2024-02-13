@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * PricesController
@@ -67,7 +66,7 @@ public class PricesController {
      * @return a list containing the prices to apply for a certain product and brand
      */
     @GetMapping(value = "/listPrice", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<InditexPrice>> getPricesToApply(
+    public ResponseEntity<InditexPrice> getPriceToApply(
             @RequestParam("applyDate") @Nullable @DateTimeFormat(pattern = "yyyy-MM-dd HH.mm.ss") LocalDateTime applyDate,
             @RequestParam("productId") @Nullable String productId,
             @RequestParam(name="brandID" , defaultValue = "1") Integer brandID) {
@@ -76,9 +75,9 @@ public class PricesController {
             log.info("Validating inputData");
             validator.validatePricesInputData(applyDate, productId);
             log.debug("Sending request to service [PricesService]...");
-            List<InditexPrice> prices = pricesService.getPricesToApply(applyDate, productId, brandID);
+            InditexPrice price = pricesService.getPriceToApply(applyDate, productId, brandID);
             log.info("Process completed successfully");
-            return ResponseEntity.ok().body(prices);
+            return ResponseEntity.ok().body(price);
         } catch (InvalidInputDataException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

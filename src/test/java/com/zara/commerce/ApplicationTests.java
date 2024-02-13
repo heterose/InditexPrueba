@@ -46,23 +46,20 @@ class ApplicationTests {
 
     private InditexPrice price;
 
-    private List<InditexPrice> prices;
-
     private ResultActions response;
 
     @BeforeEach
     void before() {
-        prices = new ArrayList<>();
         price = new InditexPrice();
     }
 
     @AfterEach
     void after() throws Exception {
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].curr", CoreMatchers.is(prices.get(0).getCurr())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].priority", CoreMatchers.is(prices.get(0).getPriority())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].startDate", CoreMatchers.is(prices.get(0).getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].price", CoreMatchers.is(prices.get(0).getPrice())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.curr", CoreMatchers.is(price.getCurr())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.priority", CoreMatchers.is(price.getPriority())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate", CoreMatchers.is(price.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price", CoreMatchers.is(price.getPrice())));
         response = null;
     }
 
@@ -74,12 +71,12 @@ class ApplicationTests {
         price.setPriority(1);
         price.setStartDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0));
         price.setEndDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59));
-        prices.add(price);
-        when(service.getPricesToApply(LocalDateTime.of(2020, 6, 14, 10, 0, 0),
-                "35455", 1)).thenReturn(prices);
+
+        when(service.getPriceToApply(LocalDateTime.of(2020, 6, 14, 10, 0, 0),
+                "35455", 1)).thenReturn(price);
         response = mockMvc.perform(get("/prices/listPrice?applyDate=2020-06-14 10.00.00&productId=35455&brandID=1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(prices)));
+                .content(objectMapper.writeValueAsString(price)));
     }
 
     //Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)
@@ -90,14 +87,14 @@ class ApplicationTests {
         price.setPriority(1);
         price.setStartDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0));
         price.setEndDate(LocalDateTime.of(2020, 6, 14, 18, 30, 0));
-        prices.add(price);
 
-        when(service.getPricesToApply(LocalDateTime.of(2020, 6, 14, 16, 0, 0),
-                "35455", 1)).thenReturn(prices);
+
+        when(service.getPriceToApply(LocalDateTime.of(2020, 6, 14, 16, 0, 0),
+                "35455", 1)).thenReturn(price);
 
         response = mockMvc.perform(get("/prices/listPrice?applyDate=2020-06-14 16.00.00&productId=35455&brandID=1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(prices)));
+                .content(objectMapper.writeValueAsString(price)));
     }
 
     //Test 3: petición a las 21:00 del día 14 del producto 35455   para la brand 1 (ZARA)
@@ -108,14 +105,13 @@ class ApplicationTests {
         price.setPriority(1);
         price.setStartDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0));
         price.setEndDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59));
-        prices.add(price);
 
-        when(service.getPricesToApply(LocalDateTime.of(2020, 6, 14, 21, 0, 0),
-                "35455", 1)).thenReturn(prices);
+        when(service.getPriceToApply(LocalDateTime.of(2020, 6, 14, 21, 0, 0),
+                "35455", 1)).thenReturn(price);
 
         response = mockMvc.perform(get("/prices/listPrice?applyDate=2020-06-14 21.00.00&productId=35455&brandID=1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(prices)));
+                .content(objectMapper.writeValueAsString(price)));
     }
 
     //Test 4: petición a las 10:00 del día 15 del producto 35455   para la brand 1 (ZARA)
@@ -126,14 +122,13 @@ class ApplicationTests {
         price.setPriority(1);
         price.setStartDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0));
         price.setEndDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0));
-        prices.add(price);
 
-        when(service.getPricesToApply(LocalDateTime.of(2020, 6, 15, 10, 0, 0),
-                "35455", 1)).thenReturn(prices);
+        when(service.getPriceToApply(LocalDateTime.of(2020, 6, 15, 10, 0, 0),
+                "35455", 1)).thenReturn(price);
 
         response = mockMvc.perform(get("/prices/listPrice?applyDate=2020-06-15 10.00.00&productId=35455&brandID=1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(prices)));
+                .content(objectMapper.writeValueAsString(price)));
     }
 
     //Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)
@@ -144,13 +139,12 @@ class ApplicationTests {
         price.setPriority(1);
         price.setStartDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0));
         price.setEndDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59));
-        prices.add(price);
 
-        when(service.getPricesToApply(LocalDateTime.of(2020, 6, 16, 21, 0, 0),
-                "35455", 1)).thenReturn(prices);
+        when(service.getPriceToApply(LocalDateTime.of(2020, 6, 16, 21, 0, 0),
+                "35455", 1)).thenReturn(price);
 
         response = mockMvc.perform(get("/prices/listPrice?applyDate=2020-06-16 21.00.00&productId=35455&brandID=1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(prices)));
+                .content(objectMapper.writeValueAsString(price)));
     }
 }

@@ -40,10 +40,10 @@ class PricesControllerTest {
         LocalDateTime applyDate = LocalDateTime.now();
         String productId = "123";
         Integer brandID = 1;
-        List<InditexPrice> expectedPrices = new ArrayList<>();
-        ResponseEntity<List<InditexPrice>> response = controller.getPricesToApply(applyDate, productId, brandID);
+        InditexPrice expectedPrice=null;
+        ResponseEntity<InditexPrice> response = controller.getPriceToApply(applyDate, productId, brandID);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedPrices, response.getBody());
+        assertEquals(expectedPrice, response.getBody());
     }
 
     @Test
@@ -52,7 +52,7 @@ class PricesControllerTest {
         String productId = null;
         Integer brandID = 1;
         doThrow(InvalidInputDataException.class).when(validator).validatePricesInputData(applyDate, productId);
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> controller.getPricesToApply(applyDate, productId, brandID));
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> controller.getPriceToApply(applyDate, productId, brandID));
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 

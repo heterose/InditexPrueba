@@ -16,18 +16,14 @@ public interface PricesRepository extends JpaRepository<InditexPrice, Long> {
      * Creates and launch a query to H2 prices having the following parameters
      *
      * @param applicationDate Date of application on prices
-     * @param productId Id for product
-     * @param brandID id for brand. Sefault value is 1(ZARA)
+     * @param productId       Id for product
+     * @param brandID         id for brand. Sefault value is 1(ZARA)
      * @return list of products given certain searching criteria as Applying price date, a productID and a brandId
      */
     @Query("Select p FROM InditexPrice p "
             + "WHERE p.startDate<=:applyDate AND p.endDate>=:applyDate AND p.brandID=:brandID AND "
-            + "p.productId=:productId AND p.priority IN "
-            + "("
-            + "  Select  MAX(p.priority) "
-            + "   FROM InditexPrice p WHERE p.startDate<=:applyDate AND p.endDate>=:applyDate and "
-            + "     p.productId=:productId AND p.brandID=:brandID GROUP BY p.productId, p.brandID"
-            + ") ")
+            + "p.productId=:productId")
     List<InditexPrice> findPricesToApply(@Param("applyDate") LocalDateTime applicationDate,
-                                                @Param("productId") String productId, @Param("brandID") Integer brandID);
+                                         @Param("productId") String productId,
+                                         @Param("brandID") Integer brandID);
 }
