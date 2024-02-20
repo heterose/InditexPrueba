@@ -1,7 +1,6 @@
 package com.zara.commerce.controller;
 
-import com.zara.commerce.entity.InditexPrice;
-import com.zara.commerce.exception.InvalidInputDataException;
+import com.zara.commerce.dto.InditexPriceDTO;
 import com.zara.commerce.service.PricesService;
 import com.zara.commerce.validator.PricesValidator;
 import jakarta.annotation.Nullable;
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * PricesController
@@ -63,24 +62,22 @@ public class PricesController {
      * @param applyDate [Application Date]
      * @param productId [Product identifier]
      * @param brandID   [Brand identifier (default value 'ZARA')]
-     * @return a list containing the prices to apply for a certain product and brand
+     * @return ResponseEntity<InditexPriceDTO>
      */
     @GetMapping(value = "/listPrice", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InditexPrice> getPriceToApply(
+    public ResponseEntity<InditexPriceDTO> getPriceToApply(
             @RequestParam("applyDate") @Nullable @DateTimeFormat(pattern = "yyyy-MM-dd HH.mm.ss") LocalDateTime applyDate,
             @RequestParam("productId") @Nullable String productId,
-            @RequestParam(name="brandID" , defaultValue = "1") Integer brandID) {
-        try {
-            log.warn("Request to Prices front controller recieved correctly...");
-            log.info("Validating inputData");
-            validator.validatePricesInputData(applyDate, productId);
-            log.debug("Sending request to service [PricesService]...");
-            InditexPrice price = pricesService.getPriceToApply(applyDate, productId, brandID);
-            log.info("Process completed successfully");
-            return ResponseEntity.ok().body(price);
-        } catch (InvalidInputDataException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+            @RequestParam(name = "brandID", defaultValue = "1") Integer brandID) {
+
+        log.warn("Request to Prices front controller recieved correctly...");
+        log.info("Validating inputData");
+        validator.validatePricesInputData(applyDate, productId);
+        log.debug("Sending request to service [PricesService]...");
+        Optional<InditexPriceDTO> price = pricesService.getPriceToApply(applyDate, productId, brandID);
+        log.info("Process completed successfully");
+        return price.isPresent()? ResponseEntity.ok().body(price.get()):
+             new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

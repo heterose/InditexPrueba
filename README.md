@@ -131,6 +131,10 @@ controller
     the endpoint (GET) that will be called through the user interface layer 
     with the corresponding parameters.
 
+dto
+    <b>InditexPriceDTO.java</b>: A data transfer object has been generated to decouple the use of the 
+    database entity (InditexPrice) in the different layers.
+
 entity
     <b>InditexPrice.java</b>:JPA entity that stores the data returned by the componente 
     of the data access layer to the business logic layer.
@@ -138,12 +142,23 @@ entity
 exception
      <b>InvalidInputDataException.java</b>: This exception is created to report an error 
      in the data entered by the user when the user makes a call to the controller endpoint.
+     <b>DataNotFoundException.java</b>: This exception has been created to inform the user 
+     when no correct price is found with the chosen search criteria
+     <b>PriceControllerAdvice.java</b>: This class has been created to globally handle errors 
+     that can occur at runtime, such as "Price not found" or "Invalid input data.".
 
+mapper
+     <b>PriceMapper.java</b>: A mapper has been created to convert the InditexPrice entity 
+     into InditexPriceDTO, in this way the database entity is decoupled from the rest of the 
+     layers, converting it to a service-side entity.
+      
+    
 repository
       <b>PricesRepository.java</b>: This class is a component of the data access layer and 
       defines the functionality necessary to perform the data query operation on the prices table.
       This component is responsible for filling with data the entities of the InditexPrice.java 
       type used in each search. <br/>
+
 validator
       <b>PricesValidator.java</b>: This component is used by the controller and is responsible for 
       validating the input data issued by the user when making the call to the controller endpoint.<br/>
@@ -156,7 +171,11 @@ validator
 
 ## Integration and Unit Tests
 
-The tests are located in the tests package within the src package.<br/>
+The unit tests are located in the tests package within the src package (package -> unit), they have been carried out <br/>
+to test the functional units of the application.<br/>
+The integration tests are located in the tests package within the src package (package -> integration).<br/>
+they have been carried out to test multiple layers of applications in a single test. They verify whether the controller and<br/> 
+persistence layers work together correctly or not.<br/><br/>
 The following figure shows the tests carried out in this application.
 
 <img height="300px"  width="400px" src="https://github.com/heterose/InditexPrueba/blob/prueba/src/main/resources/images/tests.png"/>

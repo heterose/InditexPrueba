@@ -14,18 +14,17 @@ import java.util.Objects;
 public class PricesValidator {
 
     /**
+     * Validates user input data
      *
      * @param applyDate Application date
      * @param productId The product id
      * @throws InvalidInputDataException when data es invalid
      */
-    public void validatePricesInputData(LocalDateTime applyDate,
-                                        String productId) throws InvalidInputDataException {
-        if (!Objects.isNull(applyDate)) {
-            if (StringUtils.isBlank(productId))
-                throw new InvalidInputDataException("El valor productId debe de venir informado y no ser nulo");
-        } else {
-            throw new InvalidInputDataException("La fecha no puede ser null o vacía");
+    public void validatePricesInputData(LocalDateTime applyDate, String productId) {
+        if (Objects.isNull(applyDate)) {
+            throw new InvalidInputDataException("Los datos de entrada son incorrectos: ApplyDate");
+        } else if (StringUtils.isBlank(productId)) {
+            throw new InvalidInputDataException("Los datos de entrada son incorrectos: ProductId");
         }
     }
 

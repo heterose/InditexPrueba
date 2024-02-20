@@ -7,8 +7,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
+/**
+ *  Repository class to access Prices table and retrieve price data
+ */
 @Repository
 public interface PricesRepository extends JpaRepository<InditexPrice, Long> {
 
@@ -20,10 +23,10 @@ public interface PricesRepository extends JpaRepository<InditexPrice, Long> {
      * @param brandID         id for brand. Sefault value is 1(ZARA)
      * @return list of products given certain searching criteria as Applying price date, a productID and a brandId
      */
-    @Query("Select p FROM InditexPrice p "
+    @Query("FROM InditexPrice p "
             + "WHERE p.startDate<=:applyDate AND p.endDate>=:applyDate AND p.brandID=:brandID AND "
-            + "p.productId=:productId")
-    List<InditexPrice> findPricesToApply(@Param("applyDate") LocalDateTime applicationDate,
-                                         @Param("productId") String productId,
-                                         @Param("brandID") Integer brandID);
+            + "p.productId=:productId order by p.priority desc limit 1 offset 0")
+    Optional<InditexPrice> findPriceToApply(@Param("applyDate") LocalDateTime applicationDate,
+                                            @Param("productId") String productId,
+                                            @Param("brandID") Integer brandID);
 }

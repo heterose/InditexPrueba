@@ -1,6 +1,7 @@
-package com.zara.commerce.validator;
+package com.zara.commerce.unit.validator;
 
 import com.zara.commerce.exception.InvalidInputDataException;
+import com.zara.commerce.validator.PricesValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,7 +34,7 @@ class PricesValidatorTest {
             InvalidInputDataException exception =
                     assertThrows(InvalidInputDataException.class, () ->
                     validator.validatePricesInputData(applyDate, productId));
-            assertEquals("La fecha no puede ser null o vacía", exception.getMessage());
+            assertEquals("Los datos de entrada son incorrectos: ApplyDate", exception.getMessage());
         }
 
         @Test
@@ -43,7 +44,7 @@ class PricesValidatorTest {
             String productId = "   ";
             InvalidInputDataException exception = assertThrows(InvalidInputDataException.class, () ->
                     validator.validatePricesInputData(applyDate, productId));
-            assertEquals("El valor productId debe de venir informado y no ser nulo",
+            assertEquals("Los datos de entrada son incorrectos: ProductId",
                     exception.getMessage());
         }
 

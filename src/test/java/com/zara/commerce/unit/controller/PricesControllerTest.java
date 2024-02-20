@@ -1,5 +1,7 @@
-package com.zara.commerce.controller;
+package com.zara.commerce.unit.controller;
 
+import com.zara.commerce.controller.PricesController;
+import com.zara.commerce.dto.InditexPriceDTO;
 import com.zara.commerce.entity.InditexPrice;
 import com.zara.commerce.exception.InvalidInputDataException;
 import com.zara.commerce.service.PricesService;
@@ -14,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,8 +41,8 @@ class PricesControllerTest {
         String productId = "123";
         Integer brandID = 1;
         InditexPrice expectedPrice=null;
-        ResponseEntity<InditexPrice> response = controller.getPriceToApply(applyDate, productId, brandID);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        ResponseEntity<InditexPriceDTO> response = controller.getPriceToApply(applyDate, productId, brandID);
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertEquals(expectedPrice, response.getBody());
     }
 
@@ -52,8 +52,8 @@ class PricesControllerTest {
         String productId = null;
         Integer brandID = 1;
         doThrow(InvalidInputDataException.class).when(validator).validatePricesInputData(applyDate, productId);
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> controller.getPriceToApply(applyDate, productId, brandID));
-        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        InvalidInputDataException exception = assertThrows(InvalidInputDataException.class, () -> controller.getPriceToApply(applyDate, productId, brandID));
+        //assertEquals(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
 }
