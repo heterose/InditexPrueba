@@ -171,11 +171,11 @@ validator
 
 ## Integration and Unit Tests
 
-The unit tests are located in the tests package within the src package (package -> unit), they have been carried out <br/>
+The unit tests are located in the tests package within the src package (package -> unit), they have been carried out 
 to test the functional units of the application.<br/>
 The integration tests are located in the tests package within the src package (package -> integration).<br/>
-they have been carried out to test multiple layers of applications in a single test. They verify whether the controller and<br/> 
-persistence layers work together correctly or not.<br/><br/>
+they have been carried out to test multiple layers of applications in a single test. They verify whether the controller 
+and persistence layers work together correctly or not.<br/><br/>
 The following figure shows the tests carried out in this application.
 
 <img height="300px"  width="400px" src="https://github.com/heterose/InditexPrueba/blob/prueba/src/main/resources/images/tests.png"/>
